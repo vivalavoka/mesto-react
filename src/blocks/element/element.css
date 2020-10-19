@@ -1,0 +1,16 @@
+@import url(./__photo/element__photo.css);
+@import url(./__photo-link/element__photo-link.css);
+@import url(./__panel/element__panel.css);
+@import url(./__title/element__title.css);
+@import url(./__like-wrapper/element__like-wrapper.css);
+@import url(./__like-btn/element__like-btn.css);
+@import url(./__like-count/element__like-count.css);
+@import url(./__delete/element__delete.css);
+
+.element {
+  position: relative;
+  width: 100%;
+  background-color: #FFF;
+  border-radius: 10px;
+  overflow: hidden;
+}

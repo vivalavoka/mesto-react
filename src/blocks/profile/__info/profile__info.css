@@ -1,0 +1,19 @@
+.profile__info {
+  width: 400px;
+  box-sizing: border-box;
+  margin: 0 30px;
+  flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+  .profile__info {
+    margin-bottom: 36px;
+  }
+}
+
+@media (max-width: 425px) {
+  .profile__info {
+    width: 320px;
+    margin-bottom: 36px;
+  }
+}
