@@ -1,12 +1,6 @@
 import React from 'react';
 
 export default function PopupWithForm(props) {
-  function _handleEscClose(evt) {
-    if (evt.key === 'Escape') {
-      props.onClose();
-    }
-  }
-
   function _handleClickClose(evt) {
     if (evt.target.classList.contains('popup__close-button')
       || evt.target.classList.contains('popup')) {
@@ -14,11 +8,21 @@ export default function PopupWithForm(props) {
     }
   }
 
-  if (props.isOpen) {
-    document.addEventListener('keyup', _handleEscClose);
-  } else {
-    document.removeEventListener('keyup', _handleEscClose);
-  }
+  React.useEffect(() => {
+    function _handleEscClose(evt) {
+      if (evt.key === 'Escape') {
+        props.onClose();
+      }
+    }
+
+    if (props.isOpen) {
+      document.addEventListener('keyup', _handleEscClose);
+    }
+
+    return () => {
+      document.removeEventListener('keyup', _handleEscClose);
+    }
+  });
 
   return (
     <section className={`popup page__popup-${props.name} ${props.isOpen ? 'popup_opened' : ''}`} onClick={_handleClickClose}>

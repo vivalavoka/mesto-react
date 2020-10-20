@@ -11,20 +11,19 @@ export default function Main(props) {
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getInitialCards()
-      .then(items => {
-        const sortedCards = items.sort((cardA, cardB) => new Date(cardA.createdAt) - new Date(cardB.createdAt));
-        setCards(sortedCards);
-      })
-  });
-
-  React.useEffect(() => {
-    api.getProfile()
-      .then(data => {
-        setName(data.name);
-        setDescription(data.about);
-        setAvatar(data.avatar);
-      })
+    Promise.all([
+      api.getProfile(),
+      api.getInitialCards(),
+    ])
+    .then(([profile, cards]) => {
+      setName(profile.name);
+      setDescription(profile.about);
+      setAvatar(profile.avatar);
+      setCards([...cards]);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   });
 
   return (
@@ -47,7 +46,7 @@ export default function Main(props) {
       </section>
       <ul className="elements">
         {cards.map((card) => (
-          <Card card={card} onCardClick={props.onCardClick}/>
+          <Card key={card._id} card={card} onCardClick={props.onCardClick}/>
         ))}
       </ul>
     </main>

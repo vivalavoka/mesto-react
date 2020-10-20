@@ -3,12 +3,6 @@ import React from 'react';
 export default function ImagePopup(props) {
   const {card} = props;
 
-  function _handleEscClose(evt) {
-    if (evt.key === 'Escape') {
-      props.onClose();
-    }
-  }
-
   function _handleClickClose(evt) {
     if (evt.target.classList.contains('popup__close-button')
       || evt.target.classList.contains('popup')) {
@@ -16,11 +10,21 @@ export default function ImagePopup(props) {
     }
   }
 
-  if (card) {
-    document.addEventListener('keyup', _handleEscClose);
-  } else {
-    document.removeEventListener('keyup', _handleEscClose);
-  }
+  React.useEffect(() => {
+    function _handleEscClose(evt) {
+      if (evt.key === 'Escape') {
+        props.onClose();
+      }
+    }
+
+    if (card) {
+      document.addEventListener('keyup', _handleEscClose);
+    }
+
+    return () => {
+      document.removeEventListener('keyup', _handleEscClose);
+    }
+  });
 
   return card && (
     <section className={`popup page__popup-photo ${card ? 'popup_opened' : ''}`} onClick={_handleClickClose}>
