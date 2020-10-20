@@ -1,0 +1,19 @@
+@import url(./_state/popup__submit_state_enable.css);
+@import url(./_state/popup__submit_state_disable.css);
+
+.popup__submit {
+  width: 100%;
+  height: 50px;
+  border-radius: 2px;
+  padding: 13px 0;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: normal;
+}
+
+@media (max-width: 517px) {
+  .popup__submit {
+    height: 40px;
+    font-size: 14px;
+  }
+}
