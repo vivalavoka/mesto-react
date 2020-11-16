@@ -40,6 +40,6 @@ export default function EditProfilePopup(props) {
         <input name="profile-about" id="profile-about" className="input popup__input input_state_initial" type="text" placeholder="Профессия" required minLength="2" maxLength="200" value={description} onChange={handleDescriptionChange}/>
         <span id="profile-about-error" className="popup__input-error"></span>
       </label>
-  </PopupWithForm>
+    </PopupWithForm>
   )
 }

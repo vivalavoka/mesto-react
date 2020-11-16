@@ -7,6 +7,7 @@ import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import EditProfilePopup from './EditProfilePopup.js';
+import EditAvatarPopup from './EditAvatarPopup.js';
 import ImagePopup from './ImagePopup.js';
 
 import api from '../utils/api.js';
@@ -20,8 +21,8 @@ function App() {
 
   React.useEffect(() => {
     api.getProfile()
-      .then(({_id, name, about, avatar}) => {
-        setUserData({_id, name, about, avatar})
+      .then((newUser) => {
+        setUserData(newUser)
       })
       .catch((err) => {
         console.log(err);
@@ -30,8 +31,19 @@ function App() {
 
   function handleUpdateUser({name, about}) {
     api.updateProfile(name, about)
-      .then(({_id, name, about, avatar}) => {
-        setUserData({_id, name, about, avatar});
+      .then((newUser) => {
+        setUserData(newUser);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleUpdateAvatar({avatar}) {
+    api.updateAvatar(avatar)
+      .then((newUser) => {
+        setUserData(newUser);
         closeAllPopups();
       })
       .catch((err) => {
@@ -73,12 +85,7 @@ function App() {
           onCardClick={handleCardClick}
         />
         <Footer />
-        <PopupWithForm name="avatar" title="Обновить аватар" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
-          <label className="popup__input-wrap">
-            <input name="avatar-link" id="avatar-link" className="input popup__input input_state_initial" type="url" placeholder="Ссылка на фотографию" required />
-            <span id="avatar-link-error" className="popup__input-error"></span>
-          </label>
-        </PopupWithForm>
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
         <PopupWithForm name="element" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
           <label className="popup__input-wrap">
