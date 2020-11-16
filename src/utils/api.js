@@ -71,16 +71,9 @@ class Api {
     });
   }
 
-  likeCard(cardId) {
+  changeLikeCardStatus(cardId, liked) {
     return this._fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: 'PUT',
-      headers: this._headers,
-    });
-  }
-
-  dislikeCard(cardId) {
-    return this._fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: 'DELETE',
+      method: liked ? 'PUT' : 'DELETE',
       headers: this._headers,
     });
   }

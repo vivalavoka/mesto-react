@@ -4,10 +4,18 @@ import CurrentUserContext from '../contexts/CurrentUserContext.js';
 
 export default function Card(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  const {card, onCardClick} = props;
+  const {card, onCardClick, onCardLike, onCardDelete} = props;
 
-  function handleClick() {
+  function handleCardClick() {
     onCardClick(card);
+  }
+
+  function handleCardLike() {
+    onCardLike(card);
+  }
+
+  function handleCardDelete() {
+    onCardDelete(card);
   }
 
   const _isOwner = currentUser._id === card.owner._id;
@@ -15,13 +23,13 @@ export default function Card(props) {
 
   return (
     <li className="element">
-      <a className="element__photo-link" onClick={handleClick}>
+      <a className="element__photo-link" onClick={handleCardClick}>
         <img className="element__photo" src={card.link} alt={card.name} />
       </a>
-      <div className={`button button_action_trash element__delete ${!_isOwner && 'button_state_invisible'}`}></div>
+      <div className={`button button_action_trash element__delete ${!_isOwner && 'button_state_invisible'}`} onClick={handleCardDelete}></div>
       <div className="element__panel">
         <h2 className="element__title">{card.name}</h2>
-        <div className="element__like-wrapper">
+        <div className="element__like-wrapper" onClick={handleCardLike}>
           <div className={`button button_action_empty-heart element__like-btn ${_isLiked && 'button_action_fill-heart'}`}></div>
           <span className="element__like-count">{card.likes.length}</span>
         </div>

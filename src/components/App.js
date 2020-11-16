@@ -25,7 +25,7 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  });
+  }, []);
 
   function handleCardClick(card) {
     setSelectedCard(card);
