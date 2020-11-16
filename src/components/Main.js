@@ -1,29 +1,23 @@
 import React from 'react';
 
+import CurrentUserContext from '../contexts/CurrentUserContext.js';
+
 import Card from './Card.js';
 
 import api from '../utils/api.js';
 
 export default function Main(props) {
-  const [userName, setName] = React.useState();
-  const [userDescription, setDescription] = React.useState();
-  const [userAvatar, setAvatar] = React.useState();
+  const {name, about, avatar} = React.useContext(CurrentUserContext);
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    Promise.all([
-      api.getProfile(),
-      api.getInitialCards(),
-    ])
-    .then(([profile, cards]) => {
-      setName(profile.name);
-      setDescription(profile.about);
-      setAvatar(profile.avatar);
-      setCards([...cards]);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    api.getInitialCards()
+      .then((cards) => {
+        setCards([...cards]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
 
   return (
@@ -31,15 +25,15 @@ export default function Main(props) {
       <section className="profile">
         <div className="profile__avatar-container">
           <div className="button button_action_pencil profile__edit-avatar" onClick={props.onEditAvatar}></div>
-          <img className="profile__avatar" src={userAvatar} alt="Аватар" />
+          <img className="profile__avatar" src={avatar} alt="Аватар" />
         </div>
         <article className="profile__info">
           <div className="profile__info-top">
-            <h1 className="profile__title">{userName}</h1>
+            <h1 className="profile__title">{name}</h1>
             <button type="button" className="button button_action_pencil profile__edit-button" onClick={props.onEditProfile}></button>
           </div>
           <div className="profile__info-bottom">
-            <p className="profile__subtitle">{userDescription}</p>
+            <p className="profile__subtitle">{about}</p>
           </div>
         </article>
         <button type="button" className="button button_action_cross profile__add-button" onClick={props.onAddPlace}></button>
