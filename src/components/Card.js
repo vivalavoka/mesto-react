@@ -6,7 +6,9 @@ export default function Card(props) {
   const currentUser = React.useContext(CurrentUserContext);
   const {card, onCardClick, onCardLike, onDeleteCard} = props;
 
-  function handleCardClick() {
+  function handleCardClick(e) {
+    e.preventDefault();
+
     onCardClick(card);
   }
 
@@ -23,7 +25,7 @@ export default function Card(props) {
 
   return (
     <li className="element">
-      <a className="element__photo-link" onClick={handleCardClick}>
+      <a className="element__photo-link" onClick={handleCardClick} href="/">
         <img className="element__photo" src={card.link} alt={card.name} />
       </a>
       <div className={`button button_action_trash element__delete ${!_isOwner && 'button_state_invisible'}`} onClick={handleCardDelete}></div>
