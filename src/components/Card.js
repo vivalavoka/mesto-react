@@ -4,7 +4,7 @@ import CurrentUserContext from '../contexts/CurrentUserContext.js';
 
 export default function Card(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  const {card, onCardClick, onCardLike, onCardDelete} = props;
+  const {card, onCardClick, onCardLike, onDeleteCard} = props;
 
   function handleCardClick() {
     onCardClick(card);
@@ -15,7 +15,7 @@ export default function Card(props) {
   }
 
   function handleCardDelete() {
-    onCardDelete(card);
+    onDeleteCard(card);
   }
 
   const _isOwner = currentUser._id === card.owner._id;
