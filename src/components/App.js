@@ -42,6 +42,20 @@ function App() {
       });
   }, []);
 
+  React.useEffect(() => {
+    function _handleEscClose(evt) {
+      if (evt.key === 'Escape') {
+        closeAllPopups();
+      }
+    }
+
+    document.addEventListener('keyup', _handleEscClose);
+
+    return () => {
+      document.removeEventListener('keyup', _handleEscClose);
+    }
+  });
+
   function handleUpdateUser({name, about}) {
     return api.updateProfile(name, about)
       .then((newUser) => {
@@ -120,6 +134,13 @@ function App() {
     setCardToDelete(card);
   }
 
+  function handleClickClose(evt) {
+    if (evt.target.classList.contains('popup__close-button')
+      || evt.target.classList.contains('popup')) {
+      closeAllPopups();
+    }
+  }
+
   function closeAllPopups() {
     setAvatarPopupOpened(false);
     setProfilePopupOpened(false);
@@ -142,11 +163,11 @@ function App() {
           onCardLike={handleCardLike}
         />
         <Footer />
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/>
-        <ConfirmDeleteCardPopup card={cardToDelete} onClose={closeAllPopups} onDeleteCard={handleCardDelete} />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={handleClickClose} onUpdateAvatar={handleUpdateAvatar}/>
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={handleClickClose} onUpdateUser={handleUpdateUser}/>
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={handleClickClose} onAddPlace={handleAddPlaceSubmit}/>
+        <ConfirmDeleteCardPopup card={cardToDelete} onClose={handleClickClose} onDeleteCard={handleCardDelete} />
+        <ImagePopup card={selectedCard} onClose={handleClickClose} />
       </div>
     </CurrentUserContext.Provider>
   );
