@@ -6,7 +6,6 @@ import PopupWithForm from './PopupWithForm.js';
 export default function EditProfilePopup(props) {
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
-  const [inProcess, setInProcess] = React.useState(false);
 
   const currentUser = React.useContext(CurrentUserContext);
   React.useEffect(() => {
@@ -22,21 +21,15 @@ export default function EditProfilePopup(props) {
     setDescription(evt.target.value);
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    setInProcess(true);
-
-    props.onUpdateUser({
+  function handleSubmit() {
+    return props.onUpdateUser({
       name,
       about: description,
-    }).then(() => {
-      setInProcess(false);
     });
   }
 
   return (
-    <PopupWithForm name="profile" title="Редактировать профиль" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
+    <PopupWithForm name="profile" title="Редактировать профиль" btnText="Сохранить" btnTextProcessing="Сохранение..." isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
       <label className="popup__input-wrap">
         <input name="profile-name" id="profile-name" className="input popup__input input_state_initial" type="text" placeholder="Имя" required minLength="2" maxLength="40" value={name} onChange={handleNameChange}/>
         <span id="profile-name-error" className="popup__input-error"></span>
@@ -45,7 +38,6 @@ export default function EditProfilePopup(props) {
         <input name="profile-about" id="profile-about" className="input popup__input input_state_initial" type="text" placeholder="Профессия" required minLength="2" maxLength="200" value={description} onChange={handleDescriptionChange}/>
         <span id="profile-about-error" className="popup__input-error"></span>
       </label>
-      <button className="button popup__submit popup__submit_state_enable" type="submit">{inProcess ? 'Сохранение...' : 'Сохранить'}</button>
     </PopupWithForm>
   )
 }
