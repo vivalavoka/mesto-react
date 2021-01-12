@@ -1,8 +1,15 @@
 import React from 'react';
+import {
+  Switch,
+  Route,
+} from 'react-router-dom';
 
 import CurrentUserContext from '../contexts/CurrentUserContext.js';
+import ProtectedRoute from './ProtectedRoute';
 
 import Header from './Header.js';
+import Register from './Register.js';
+import Login from './Login.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import EditProfilePopup from './EditProfilePopup.js';
@@ -14,6 +21,7 @@ import ImagePopup from './ImagePopup.js';
 import api from '../utils/api.js';
 
 function App() {
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setUserData] = React.useState({});
   const [isEditAvatarPopupOpen, setAvatarPopupOpened] = React.useState(false);
   const [isEditProfilePopupOpen, setProfilePopupOpened] = React.useState(false);
@@ -153,15 +161,27 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__content">
         <Header />
-        <Main
-          onEditAvatar={handleEditAvatarClick}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onDeleteCard={handleDeleteCardClick}
-          onCardClick={handleCardClick}
-          cards={cards}
-          onCardLike={handleCardLike}
-        />
+        <Switch>
+          <Route path="/sign-up">
+            <Register/>
+          </Route>
+          <Route path="/sign-in">
+            <Login/>
+          </Route>
+          <ProtectedRoute
+            exact
+            path="/"
+            component={Main}
+            loggedIn={loggedIn}
+            onEditAvatar={handleEditAvatarClick}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onDeleteCard={handleDeleteCardClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+          />
+        </Switch>
         <Footer />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={handleClickClose} onUpdateAvatar={handleUpdateAvatar}/>
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={handleClickClose} onUpdateUser={handleUpdateUser}/>
