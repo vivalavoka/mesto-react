@@ -12,7 +12,7 @@ const _fetch = (url, options) => {
 }
 
 export const validate = (token) => {
-  return _fetch(`${BASE_URL}/user/me`, {
+  return _fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

@@ -1,8 +1,8 @@
-// Login.js
-
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
+
 import * as auth from '../utils/auth.js';
+import {jwtKey} from '../utils/constants.js';
 
 // import './styles/Login.css';
 
@@ -15,7 +15,6 @@ class Login extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
   }
   handleChange(e) {
     const {name, value} = e.target;
@@ -32,10 +31,20 @@ class Login extends React.Component {
     auth.auth(password, email)
       .then(res => {
         if (res.token) {
-          localStorage.setItem('token', res.token);
+          this.setState({
+            email: '',
+            password: '',
+          }, () => {
+            localStorage.setItem(jwtKey, res.token);
+            this.props.handleLogin(true);
+            this.props.history.push('/');
+          });
         } else {
-          console.log('Что-то не так');
+          console.error('Что-то не так');
         }
+      })
+      .catch(err => {
+        console.error(err);
       });
   }
   render(){
