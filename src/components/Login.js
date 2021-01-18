@@ -46,25 +46,15 @@ function Login(props) {
   }
 
   return(
-    <div className="login" style={{color: 'white'}}>
-      <form onSubmit={handleSubmit} className="login__form">
-        <label htmlFor="email">
-          Почта:
-        </label>
-        <input id="email" required name="email" type="text" value={email} onChange={handleChange} />
-        <label htmlFor="password">
-          Пароль:
-        </label>
-        <input id="password" required name="password" type="password" value={password} onChange={handleChange} />
-          <div className="login__button-container">
-            <button type="submit" className="login__link">Войти</button>
-          </div>
+    <div className="register">
+      <p className="register__welcome">Вход</p>
+      <form onSubmit={handleSubmit} className="register__form">
+        <input id="email" name="email" type="email" className="input register__input input_state_initial input_theme_dark" value={email} onChange={handleChange} placeholder="Email"/>
+        <input id="password" name="password" type="password" className="input register__input input_state_initial input_theme_dark" value={password} onChange={handleChange} placeholder="Пароль"/>
+        <div className="register__button-container">
+          <button type="submit" className="button register__link">Войти</button>
+        </div>
       </form>
-
-      <div className="login__signup">
-        <p>Ещё не зарегистрированы?</p>
-        <Link to="/sign-up" className="signup__link">Зарегистрироваться</Link>
-      </div>
     </div>
   )
 }
