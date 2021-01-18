@@ -18,6 +18,7 @@ import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
 import ConfirmDeleteCardPopup from './ConfirmDeleteCardPopup.js';
 import ImagePopup from './ImagePopup.js';
+import InfoTooltip from './InfoTooltip.js';
 
 import api from '../utils/api.js';
 import { jwtKey } from '../utils/constants.js';
@@ -28,6 +29,8 @@ class App extends React.PureComponent {
     super(props);
     this.state = {
       loggedIn: false,
+      infoStatus: 'success',
+      infoMessage: 'Вы успешно зарегистрировались!',
       currentUser: {},
       isEditAvatarPopupOpen: false,
       isEditProfilePopupOpen: false,
@@ -51,6 +54,7 @@ class App extends React.PureComponent {
     this.handleClickClose = this.handleClickClose.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleTokenCheck = this.handleTokenCheck.bind(this);
+    this.handleInfoTooltip = this.handleInfoTooltip.bind(this);
     this.closeAllPopups = this.closeAllPopups.bind(this);
     this._handleEscClose = this._handleEscClose.bind(this);
   }
@@ -190,6 +194,13 @@ class App extends React.PureComponent {
     })
   }
 
+  handleInfoTooltip(status, message) {
+    this.setState({
+      infoStatus: status,
+      infoMessage: message,
+    });
+  }
+
   handleClickClose(evt) {
     if (evt.target.classList.contains('popup__close-button')
       || evt.target.classList.contains('popup')) {
@@ -201,6 +212,7 @@ class App extends React.PureComponent {
     this.handleEditAvatarClick(false);
     this.handleEditProfileClick(false);
     this.handleAddPlaceClick(false);
+    this.handleInfoTooltip(null, '');
     this.handleDeleteCardClick(null);
     this.handleCardClick(null);
   }
@@ -254,6 +266,7 @@ class App extends React.PureComponent {
           <AddPlacePopup isOpen={this.state.isAddPlacePopupOpen} onClose={this.handleClickClose} onAddPlace={this.handleAddPlaceSubmit}/>
           <ConfirmDeleteCardPopup card={this.state.cardToDelete} onClose={this.handleClickClose} onDeleteCard={this.handleCardDelete} />
           <ImagePopup card={this.state.selectedCard} onClose={this.handleClickClose} />
+          <InfoTooltip status={this.state.infoStatus} message={this.state.infoMessage} onClose={this.handleClickClose} />
         </div>
       </CurrentUserContext.Provider>
     );
