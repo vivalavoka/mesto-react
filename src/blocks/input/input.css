@@ -2,6 +2,9 @@
 @import url(./_state/input_state_valid.css);
 @import url(./_state/input_state_initial.css);
 
+@import url(./_theme/input_theme_dark.css);
+@import url(./_theme/input_theme_light.css);
+
 .input {
   width: 100%;
   padding: 13px 0;

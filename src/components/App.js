@@ -29,8 +29,8 @@ class App extends React.PureComponent {
     super(props);
     this.state = {
       loggedIn: false,
-      infoStatus: 'success',
-      infoMessage: 'Вы успешно зарегистрировались!',
+      infoStatus: null,
+      infoMessage: '',
       currentUser: {},
       isEditAvatarPopupOpen: false,
       isEditProfilePopupOpen: false,

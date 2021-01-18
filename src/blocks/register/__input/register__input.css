@@ -1,0 +1,19 @@
+.register__input {
+  margin-bottom: 30px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2;
+  color: #ccc;
+}
+
+.register__input:last-of-type {
+  margin-bottom: 216px;
+}
+
+.register__input::placeholder {
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2;
+  color: #ccc;
+}
