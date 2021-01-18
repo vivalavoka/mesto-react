@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import * as auth from '../utils/auth.js';
 import {jwtKey} from '../utils/constants.js';

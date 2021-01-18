@@ -1,13 +1,10 @@
 import React from "react";
 import { Switch, Link, Route, withRouter } from "react-router-dom";
 
-import {jwtKey} from '../utils/constants';
+import CurrentUserContext from '../contexts/CurrentUserContext.js';
 
 function Header(props) {
-  function logout() {
-    localStorage.removeItem(jwtKey);
-    props.history.push('/sign-in');
-  }
+  const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <header className="header">
@@ -21,8 +18,8 @@ function Header(props) {
             <Link to="/sign-up" className="header__link">Зарегистрироваться</Link>
           </Route>
           <Route path="/">
-            <span className="header__email">email@email.com</span>
-            <button className="button header__logout" onClick={logout}>Выйти</button>
+            <span className="header__email">{currentUser.email}</span>
+            <button className="button header__logout" onClick={props.onLogout}>Выйти</button>
           </Route>
         </Switch>
       </div>

@@ -55,6 +55,7 @@ class App extends React.PureComponent {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleTokenCheck = this.handleTokenCheck.bind(this);
     this.handleInfoTooltip = this.handleInfoTooltip.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
     this.closeAllPopups = this.closeAllPopups.bind(this);
     this._handleEscClose = this._handleEscClose.bind(this);
   }
@@ -68,20 +69,6 @@ class App extends React.PureComponent {
   componentDidMount() {
     this.handleTokenCheck();
     document.addEventListener('keyup', this._handleEscClose);
-    api.getProfile()
-      .then((newUser) => {
-        this.setUserData(newUser)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    api.getInitialCards()
-      .then((cards) => {
-        this.setCards([...cards]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   componentWillUnmount() {
@@ -146,6 +133,13 @@ class App extends React.PureComponent {
       });
   }
 
+  handleLogout() {
+    localStorage.removeItem(jwtKey);
+    this.setUserData({});
+    this.setCards([]);
+    this.props.history.push('/sign-in');
+  }
+
   setUserData(userData) {
     this.setState({
       currentUser: userData,
@@ -191,7 +185,24 @@ class App extends React.PureComponent {
   handleLogin(loggedIn) {
     this.setState({
       loggedIn,
-    })
+    });
+    api.getProfile()
+      .then((newUser) => {
+        this.setUserData({
+          ...this.state.currentUser,
+          ...newUser,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    api.getInitialCards()
+      .then((cards) => {
+        this.setCards([...cards]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   handleInfoTooltip(status, message) {
@@ -224,6 +235,10 @@ class App extends React.PureComponent {
         .then(res => {
           if (res.data) {
             this.handleLogin(true);
+            this.setUserData({
+              ...this.state.currentUser,
+              email: res.data.email,
+            });
             this.props.history.push('/');
           }
         })
@@ -237,7 +252,7 @@ class App extends React.PureComponent {
     return (
       <CurrentUserContext.Provider value={this.state.currentUser}>
         <div className="page__content">
-          <Header />
+          <Header onLogout={this.handleLogout} />
           <Switch>
             <Route path="/sign-up">
               <Register/>
