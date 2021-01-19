@@ -1,0 +1,14 @@
+@import url(./__welcome/sign__welcome.css);
+
+@import url(./__input/sign__input.css);
+
+@import url(./__button-container/sign__button-container.css);
+@import url(./__link/sign__link.css);
+@import url(./__signin/sign__signin.css);
+@import url(./__login-link/sign__login-link.css);
+
+.sign {
+  color: white;
+  max-width: 360px;
+  margin: 0 auto;
+}
