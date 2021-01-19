@@ -32,10 +32,8 @@ function Login(props) {
         if (res.token) {
           setEmail('');
           setPassword('');
-
           localStorage.setItem(jwtKey, res.token);
           props.handleLogin(true);
-          props.history.push('/');
         } else {
           console.error('Что-то не так');
         }

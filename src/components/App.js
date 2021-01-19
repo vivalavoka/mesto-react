@@ -39,6 +39,7 @@ class App extends React.PureComponent {
       selectedCard: null,
       cards: [],
     };
+    this.initialize = this.initialize.bind(this);
     this.setUserData = this.setUserData.bind(this);
     this.setCards = this.setCards.bind(this);
     this.handleUpdateUser = this.handleUpdateUser.bind(this);
@@ -53,7 +54,7 @@ class App extends React.PureComponent {
     this.handleDeleteCardClick = this.handleDeleteCardClick.bind(this);
     this.handleClickClose = this.handleClickClose.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
-    this.handleTokenCheck = this.handleTokenCheck.bind(this);
+    this.setLoggedIn = this.setLoggedIn.bind(this);
     this.handleInfoTooltip = this.handleInfoTooltip.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.closeAllPopups = this.closeAllPopups.bind(this);
@@ -67,7 +68,7 @@ class App extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.handleTokenCheck();
+    this.handleLogin();
     document.addEventListener('keyup', this._handleEscClose);
   }
 
@@ -135,6 +136,7 @@ class App extends React.PureComponent {
 
   handleLogout() {
     localStorage.removeItem(jwtKey);
+    this.setLoggedIn(false);
     this.setUserData({});
     this.setCards([]);
     this.props.history.push('/sign-in');
@@ -182,14 +184,17 @@ class App extends React.PureComponent {
     });
   }
 
-  handleLogin(loggedIn) {
+  setLoggedIn(loggedIn) {
     this.setState({
       loggedIn,
     });
+  }
+
+  initialize(data) {
     api.getProfile()
       .then((newUser) => {
         this.setUserData({
-          ...this.state.currentUser,
+          email: data.email,
           ...newUser,
         });
       })
@@ -228,17 +233,14 @@ class App extends React.PureComponent {
     this.handleCardClick(null);
   }
 
-  handleTokenCheck() {
+  handleLogin() {
     if (localStorage.getItem(jwtKey)) {
       const jwt = localStorage.getItem(jwtKey);
       auth.validate(jwt)
         .then(res => {
           if (res.data) {
-            this.handleLogin(true);
-            this.setUserData({
-              ...this.state.currentUser,
-              email: res.data.email,
-            });
+            this.initialize(res.data);
+            this.setLoggedIn(true);
             this.props.history.push('/');
           }
         })
