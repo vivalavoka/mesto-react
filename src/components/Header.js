@@ -19,7 +19,7 @@ function Header(props) {
           </Route>
           <Route path="/">
             <span className="header__email">{currentUser.email}</span>
-            <button className="button header__logout" onClick={props.onLogout}>Выйти</button>
+            <button className="button header__logout" onClick={props.onSignOut}>Выйти</button>
           </Route>
         </Switch>
       </div>

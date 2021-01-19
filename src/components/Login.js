@@ -33,7 +33,7 @@ function Login(props) {
           setEmail('');
           setPassword('');
           localStorage.setItem(jwtKey, res.token);
-          props.handleLogin();
+          props.onLogin();
         } else {
           props.handleInfoTooltip(false, true);
         }

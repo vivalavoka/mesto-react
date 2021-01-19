@@ -55,7 +55,7 @@ class App extends React.PureComponent {
     this.handleLogin = this.handleLogin.bind(this);
     this.setLoggedIn = this.setLoggedIn.bind(this);
     this.handleInfoTooltip = this.handleInfoTooltip.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
+    this.handleSignOut = this.handleSignOut.bind(this);
     this.closeAllPopups = this.closeAllPopups.bind(this);
     this._handleEscClose = this._handleEscClose.bind(this);
   }
@@ -82,7 +82,7 @@ class App extends React.PureComponent {
         this.closeAllPopups();
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }
 
@@ -93,7 +93,7 @@ class App extends React.PureComponent {
         this.closeAllPopups();
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }
 
@@ -104,7 +104,7 @@ class App extends React.PureComponent {
         this.closeAllPopups();
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }
 
@@ -117,7 +117,7 @@ class App extends React.PureComponent {
         this.setCards(newCards);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }
 
@@ -129,11 +129,11 @@ class App extends React.PureComponent {
         this.closeAllPopups();
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }
 
-  handleLogout() {
+  handleSignOut() {
     localStorage.removeItem(jwtKey);
     this.setLoggedIn(false);
     this.setUserData({});
@@ -198,14 +198,14 @@ class App extends React.PureComponent {
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
     api.getInitialCards()
       .then((cards) => {
         this.setCards([...cards]);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }
 
@@ -255,14 +255,14 @@ class App extends React.PureComponent {
     return (
       <CurrentUserContext.Provider value={this.state.currentUser}>
         <div className="page__content">
-          <Header onLogout={this.handleLogout} />
+          <Header onSignOut={this.handleSignOut} />
           <Switch>
             <Route path="/sign-up">
               <Register handleInfoTooltip={this.handleInfoTooltip}/>
             </Route>
             <Route path="/sign-in">
               <Login
-                handleLogin={this.handleLogin}
+                onLogin={this.handleLogin}
                 handleInfoTooltip={this.handleInfoTooltip}
               />
             </Route>

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function InfoTooltip(props) {
   const {opened, success} = props;
-console.log('====================> opened, success: ', opened, success); // eslint-disable-line
+
   return (
     <section className={`popup page__popup-photo ${opened ? 'popup_opened' : ''}`} onClick={props.onClose}>
       <div className="popup__container">
