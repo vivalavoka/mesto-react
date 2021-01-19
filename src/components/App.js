@@ -29,8 +29,7 @@ class App extends React.PureComponent {
     super(props);
     this.state = {
       loggedIn: false,
-      infoStatus: null,
-      infoMessage: '',
+      infoTooltip: {},
       currentUser: {},
       isEditAvatarPopupOpen: false,
       isEditProfilePopupOpen: false,
@@ -210,10 +209,12 @@ class App extends React.PureComponent {
       });
   }
 
-  handleInfoTooltip(status, message) {
+  handleInfoTooltip(success, opened = true) {
     this.setState({
-      infoStatus: status,
-      infoMessage: message,
+      infoTooltip: {
+        opened,
+        success,
+      }
     });
   }
 
@@ -228,7 +229,7 @@ class App extends React.PureComponent {
     this.handleEditAvatarClick(false);
     this.handleEditProfileClick(false);
     this.handleAddPlaceClick(false);
-    this.handleInfoTooltip(null, '');
+    this.handleInfoTooltip(null, false);
     this.handleDeleteCardClick(null);
     this.handleCardClick(null);
   }
@@ -257,11 +258,12 @@ class App extends React.PureComponent {
           <Header onLogout={this.handleLogout} />
           <Switch>
             <Route path="/sign-up">
-              <Register/>
+              <Register handleInfoTooltip={this.handleInfoTooltip}/>
             </Route>
             <Route path="/sign-in">
               <Login
                 handleLogin={this.handleLogin}
+                handleInfoTooltip={this.handleInfoTooltip}
               />
             </Route>
             <ProtectedRoute
@@ -283,7 +285,7 @@ class App extends React.PureComponent {
           <AddPlacePopup isOpen={this.state.isAddPlacePopupOpen} onClose={this.handleClickClose} onAddPlace={this.handleAddPlaceSubmit}/>
           <ConfirmDeleteCardPopup card={this.state.cardToDelete} onClose={this.handleClickClose} onDeleteCard={this.handleCardDelete} />
           <ImagePopup card={this.state.selectedCard} onClose={this.handleClickClose} />
-          <InfoTooltip status={this.state.infoStatus} message={this.state.infoMessage} onClose={this.handleClickClose} />
+          <InfoTooltip opened={this.state.infoTooltip.opened} success={this.state.infoTooltip.success} onClose={this.handleClickClose} />
         </div>
       </CurrentUserContext.Provider>
     );

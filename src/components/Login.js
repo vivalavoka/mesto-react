@@ -35,11 +35,12 @@ function Login(props) {
           localStorage.setItem(jwtKey, res.token);
           props.handleLogin();
         } else {
-          console.error('Что-то не так');
+          props.handleInfoTooltip(false, true);
         }
       })
       .catch(err => {
         console.error(err);
+        props.handleInfoTooltip(false, true);
       });
   }
 

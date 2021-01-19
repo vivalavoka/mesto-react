@@ -26,12 +26,14 @@ function Register(props) {
     auth.register(password, email)
       .then(res => {
         if (res) {
+          props.handleInfoTooltip(true);
           props.history.push('/sign-in');
         }
       })
       .catch(err => {
-        console.log(err);
-      })
+        console.error(err);
+        props.handleInfoTooltip(false);
+      });
   }
 
   return(
